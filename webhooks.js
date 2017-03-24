@@ -76,3 +76,26 @@ function sendMessage(event) {
 
   apiai.end();
 }
+// //let restUrl = 'http://api.openweathermap.org/data/2.5/weather?units=imperial&APPID='+WEATHER_API_KEY+'&q='+city;
+//084489559f741d0948a27bccc2ad113b
+
+app.post('/ai', (req, res) => {
+  if (req.body.result.action === 'weather') {
+    let city = req.body.result.parameters['geo-city'];
+    let restUrl = 'http://api.openweathermap.org/data/2.5/weather?APPID='+WEATHER_API_KEY+'&q='+city;
+
+    request.get(restUrl, (err, response, body) => {
+      if (!err && response.statusCode == 200) {
+        let json = JSON.parse(body);
+       json.weather[0].description + ' and the temperature is ' + json.main.temp + ' ℉';
+        return res.json({
+          speech: msg,
+          displayText: msg,
+          source: 'weather'});
+      } else {
+        return res.status(400).json({
+          status: {
+            code: 400,
+            errorType: 'I failed to look up the city name.'}})
+      }})
+}})
