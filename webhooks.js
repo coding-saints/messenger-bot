@@ -13,7 +13,7 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
 });
 
-const apiaiApp = apiai('5ba8de46979d4f8e9dd61b7b3f4cdcd5');
+const apiaiApp = apiai(APIAI_KEY);
 
 /* For Facebook Validation */
 app.get('/webhook', (req, res) => {
@@ -54,7 +54,7 @@ function sendMessage(event) {
 
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: {access_token: 'EAAGHIZBVMuxIBAPgYT0hlULxih6BNiJU5NA8lsTHdTVPcoHnkcGswwpbvFQZBq6V0gjImu0zXjmwguEpJcKofDSeL6GEiwr966FMeTcnNv7aSp5nFVNUCYutk6u6KLMBYZBM67qingdXvrMJw9gW8RjYxwuCyiuZCoMOFbUtZAQZDZD'},
+      qs: {access_token:APIAI_TOKEN},
       method: 'POST',
       json: {
         recipient: {id: sender},
