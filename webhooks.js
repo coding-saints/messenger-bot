@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const apiai = require('apiai');
-
+require('dotenv').config();
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -13,7 +13,7 @@ const server = app.listen(process.env.PORT || 3000, () => {
   console.log('Express server listening on port %d in %s mode', server.address().port, app.settings.env);
 });
 
-const apiaiApp = apiai(APIAI_KEY);
+const apiaiApp = apiai(process.env.APIAI_KEY);
 
 /* For Facebook Validation */
 app.get('/webhook', (req, res) => {
@@ -54,7 +54,7 @@ function sendMessage(event) {
 
     request({
       url: 'https://graph.facebook.com/v2.6/me/messages',
-      qs: {access_token:APIAI_TOKEN},
+      qs: {access_token:process.env.APIAI_TOKEN},
       method: 'POST',
       json: {
         recipient: {id: sender},
